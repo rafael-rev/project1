@@ -14,7 +14,7 @@ public interface UserDao {
     // Get User obj by username
     User getUserByUsername(String username);
     // Get Users List by status (pending, approved, rejected)
-    List<User> getUserListByStatus(String status);
+    List<User> getUserListByStatus(Integer status);
     // 
 
     /////// UPDATE

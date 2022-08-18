@@ -16,7 +16,7 @@ public interface ReimburseDao {
     // get list of reimbursement objects
     List<Reimbursement> getListOfAllReimbObjs();
     // get reimburse obj via status
-    List<Reimbursement> getAllReimbViaStatus(String status);
+    List<Reimbursement> getAllReimbViaStatus(Integer status);
     // get reimburse obj via author
     List<Reimbursement> getAllReimbsViaAuthor(Integer auth_id);
     // get reimburse obj via resolver
