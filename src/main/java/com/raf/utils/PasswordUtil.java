@@ -7,13 +7,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Logger;
 
 import javax.crypto.spec.PBEKeySpec;
+
+import org.apache.logging.log4j.LogManager;
+
 import javax.crypto.SecretKeyFactory;
 
 public class PasswordUtil {
     
-    Logger logger = Logger.getLogger(PasswordUtil.class);
+    Logger logger = LogManager.getLogger(PasswordUtil.class);
     
-    private static final iterations = 5000;
+    private static final Integer iterations = 5000;
     private static final Integer salt_size = 32; // min in bytes
     private static final Integer hash_size = 512;
     
