@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao{
             }
             conn.close();
         }catch(SQLException e){
-            logger.error("UserDao - getUserByUsername : SQLException", e);
+            logger.error("UserDao - getUserListByStatus : SQLException", e);
         }
         return status_list;
     }

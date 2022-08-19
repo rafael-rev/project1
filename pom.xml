@@ -19,12 +19,15 @@
   </properties>
 
   <dependencies>
+    <!-- Junit updated to non-vulnerable 4.13.2 -->
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
     </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
     <dependency>
@@ -52,6 +55,15 @@
         <artifactId>log4j-core</artifactId>
         <version>2.18.0</version>
     </dependency>
+    <!-- Password security -->
+    <!-- https://mvnrepository.com/artifact/de.rtner/PBKDF2 -->
+    <dependency>
+        <groupId>de.rtner</groupId>
+        <artifactId>PBKDF2</artifactId>
+        <version>1.1.4</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>

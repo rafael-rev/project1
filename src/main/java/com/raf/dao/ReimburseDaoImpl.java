@@ -193,7 +193,6 @@ public class ReimburseDaoImpl implements ReimburseDao{
         return twoMixedCondReimbs;
     }
 
-
     /////// UPDATE
     // update request entry by ID for fields (resolved time, resolver, status_id)
     // resolverID will be stored upon manager login
@@ -212,6 +211,5 @@ public class ReimburseDaoImpl implements ReimburseDao{
         }catch(SQLException e){
             logger.error("ReimburseDao - modifyRequestViaReimbID : SQLException", e);
         }
-        
     }
 }
