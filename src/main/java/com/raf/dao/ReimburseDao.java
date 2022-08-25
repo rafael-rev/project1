@@ -24,13 +24,15 @@ public interface ReimburseDao {
     // get reimburse obj via username 
     List<Reimbursement> getAllReimbsViaUsername(String username);
     // get reimbs via 2 string conditions
-    List<Reimbursement> getReimbsViaTwoStrConditions(String whereTgtOne, String whereTgtTwo, String whereCondOne, String whereCondTwo);
+    List<Reimbursement> getReimbsViaTwoStrConditions(String whereTgtOne, String whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
     // get reimbs via 2 int conditions
-    List<Reimbursement> getReimbsViaTwoIntConditions(Integer whereTgtOne, Integer whereTgtTwo, String whereCondOne, String whereCondTwo);
+    List<Reimbursement> getReimbsViaTwoIntConditions(Integer whereTgtOne, Integer whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
     // get reimbs via 1 int & 1 str conditions
-    List<Reimbursement> getReimbsViaTwoMixedConditions(Integer whereTgtOne, String whereTgtTwo, String whereCondOne, String whereCondTwo);
-
-
+    List<Reimbursement> getReimbsViaTwoMixedConditions(Integer whereTgtOne, String whereTgtTwo,String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
+    // get reimbs via 1 str condition
+    List<Reimbursement> getReimbsViaOneStrCondition(String whereTgt, String operator, String whereCond);
+// get reimbs via 1 int condition
+    List<Reimbursement> getReimbsViaOneIntCondition(Integer whereTgt, String operator, String whereCond);
     /////// UPDATE
     // update request entry by ID for fields (resolved time, resolver, status_id)
     void modifyRequestViaReimbID(Integer reimb_id, Integer status_id);

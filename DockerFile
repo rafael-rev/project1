@@ -1,0 +1,18 @@
+# Build
+FROM maven:__ AS build
+
+COPY pom.xml /home/project1/pom.xml
+COPY src/ /home/project1/src/
+
+
+
+
+
+
+# Run
+FROM openjdk:
+
+COPY --from=build #COPY JAR TO LOCATION
+
+EXPOSE 11000
+

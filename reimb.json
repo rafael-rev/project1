@@ -1,0 +1,12 @@
+{
+	"id": 1,
+	"amount": 400.00,
+	"time_submitted": "2020-08-15",
+	"time_resolved": null,
+	"description": "Train fares",
+	"receipt": "/resources/media/1.jpg",
+	"author": 2,
+	"resolver": 1,
+	"status_id": 1,
+	"type_id": 2
+}

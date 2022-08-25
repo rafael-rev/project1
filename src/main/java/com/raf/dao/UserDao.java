@@ -15,7 +15,8 @@ public interface UserDao {
     User getUserByUsername(String username);
     // Get Users List by status (pending, approved, rejected)
     List<User> getUserListByStatus(Integer status);
-    // 
+    // Get Username from UserID/AuthorID
+    String getUsernameByUserID(Integer userID);
 
     /////// UPDATE
     //  -- User entries modification not required
