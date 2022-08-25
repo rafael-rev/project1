@@ -4,7 +4,7 @@
 
 **As an employee**:
 - I can login to the system to access the employee dashboard - need 2 save user info per login
-- I can view all of my past reimbursement requests
+- I can view all of my past reimbursement requests - DONE IN JAVA
 - I can create a new reimbursement request - DONE in JAVA
 
 **As a Finance Manager**:

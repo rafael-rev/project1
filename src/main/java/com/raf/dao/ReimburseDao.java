@@ -1,4 +1,5 @@
 package com.raf.dao;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.raf.models.Reimbursement;
@@ -23,6 +24,10 @@ public interface ReimburseDao {
     List<Reimbursement> getAllReimbsViaResolver(Integer resolver_id);
     // get reimburse obj via username 
     List<Reimbursement> getAllReimbsViaUsername(String username);
+    // get reimbs via 1 timestamp, 1 string conditions
+    List<Reimbursement> getReimbsViaNowAndStrCondition(String whereTgt, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
+    // get reimbs via 1 timestamp, 1 string conditions
+    List<Reimbursement> getReimbsViaTimeAndStrConditions(Timestamp whereTgtOne, String whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
     // get reimbs via 2 string conditions
     List<Reimbursement> getReimbsViaTwoStrConditions(String whereTgtOne, String whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo);
     // get reimbs via 2 int conditions

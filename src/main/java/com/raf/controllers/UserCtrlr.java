@@ -25,10 +25,11 @@ public class UserCtrlr {
 
     // READ
     public void viewPastRequests(Context ctx){
-        User user = uSvc.getUserByUsername(ctx.pathParam("user"));
+        User user = ctx.sessionAttribute("user");
+        System.out.println(user.toString());
         List<Reimbursement> items = uSvc.viewPastRequests(user);
-
-        if(items == null){
+        System.out.println("User: "+user.getUsername());
+        if(items.isEmpty()){
             ctx.json(new Response(false, "user not found error", null ));
         }else{
             ctx.json(new Response(true, "User requests returned.", items));

@@ -139,7 +139,8 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> twoStrReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u."+whereCondOne+" "+operatorOne+" ? and "+whereCondTwo+" "+operatorTwo+" ?";
+            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
+            System.out.println(qry);
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setString(1, whereTgtOne);
@@ -153,6 +154,47 @@ public class ReimburseDaoImpl implements ReimburseDao{
             logger.error("ReimburseDao - getReimbsViaTwoStrConditions : SQLException", e);
         }
         return twoStrReimbs;
+    }
+    // get reimbs via 1 timestap, 1 string conditions
+    public List<Reimbursement> getReimbsViaTimeAndStrConditions(Timestamp whereTgtOne, String whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo){
+        Reimbursement reimb = null;
+        List<Reimbursement> tsAndStrReimbs = new ArrayList<>();
+        try(Connection conn = ConnectUtil.getConnection()){
+            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
+            System.out.println(qry);
+            
+            PreparedStatement ps = conn.prepareStatement(qry);
+            ps.setTimestamp(1, whereTgtOne);
+            ps.setString(2, whereTgtTwo);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+            }
+            conn.close();
+        }catch(SQLException e){
+            logger.error("ReimburseDao - getReimbsViaTwoStrConditions : SQLException", e);
+        }
+        return tsAndStrReimbs;
+    }
+    // get reimbs via NOW time, 1 string conditions
+    public List<Reimbursement> getReimbsViaNowAndStrCondition(String whereTgt, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo){
+        Reimbursement reimb = null;
+        List<Reimbursement> tsAndStrReimbs = new ArrayList<>();
+        try(Connection conn = ConnectUtil.getConnection()){
+            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" now() and "+whereCondTwo+" "+operatorTwo+" (?)";
+            System.out.println(qry);
+            
+            PreparedStatement ps = conn.prepareStatement(qry);
+            ps.setString(1, whereTgt);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+            }
+            conn.close();
+        }catch(SQLException e){
+            logger.error("ReimburseDao - getReimbsViaTwoStrConditions : SQLException", e);
+        }
+        return tsAndStrReimbs;
     }
     // get reimbs via 2 int conditions
     public List<Reimbursement> getReimbsViaTwoIntConditions(Integer whereTgtOne, Integer whereTgtTwo, String operatorOne, String operatorTwo, String whereCondOne, String whereCondTwo){

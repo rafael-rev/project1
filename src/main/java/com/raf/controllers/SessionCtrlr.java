@@ -13,8 +13,10 @@ public class SessionCtrlr {
         User creds = ctx.bodyAsClass(User.class);
         //Validate creds
         if(uSvc.validateCreds(creds)){
+            // grab user data from DB
+            User userFromDb = uSvc.getUserByUsername(creds.getUsername());
             //Store the new User to session
-            ctx.sessionAttribute("user", creds);
+            ctx.sessionAttribute("user", userFromDb);
             //send info to user
             ctx.json(new Response(true, "successful login", null));
         }else{

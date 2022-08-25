@@ -1,5 +1,8 @@
 package com.raf.services;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.xml.transform.Source;
 
 import com.raf.dao.ReimburseDaoImpl;
 import com.raf.dao.UserDaoImpl;
@@ -44,7 +47,11 @@ public class UserSvc {
 
     // user view all past reimb requests
     public List<Reimbursement> viewPastRequests(User user){
-        return rDao.getReimbsViaTwoStrConditions(java.time.LocalDateTime.now().toString(), user.getUsername(), "<", "=", "r.reimb_submitted", "u.ers_username");        
+        //DateTimeFormatter dfmt = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+
+        // LocalDateTime now = LocalDateTime.now();
+        //System.out.println("Current time: "+dfmt.format(java.time.LocalDateTime.now()));
+        return rDao.getReimbsViaNowAndStrCondition(user.getUsername(), "<", "=", "r.reimb_submitted", "u.ers_username");        
     }
 
     // user create new request
