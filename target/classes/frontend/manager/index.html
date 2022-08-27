@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../index.html">Reimbursement Portal</a>
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <!-- <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li> -->
+              
+            </ul>
+          </div>
+          <button id="logout-button" class="button btn btn-danger" type="submit">logout</button>
+        </div>
+      </nav>
+
+      <div id="display-container">
+          <div id="item">
+            <div id="item-id" class="item-detail">Item 1</div>
+            <div id="item-author" class="item-detail">Terry</div>
+            <div id="item-value" class="item-detail">$120.00</div>
+            <div id="item-submitted" class="item-detail">2022-08-02</div>
+            <div id="item-description" class="item-detail">Metrocard</div>
+            <div id="item-type" class="item-detail">travel</div>
+            <div id="item-status" class="item-detail">pending</div>
+            <button id="item-approve-btn" class="btn btn-success">Approve</button>
+          </div>
+          <div id="item">
+            <div id="item-id" class="item-detail">Item 1</div>
+            <div id="item-author" class="item-detail">Terry</div>
+            <div id="item-value" class="item-detail">$120.00</div>
+            <div id="item-submitted" class="item-detail">2022-08-02</div>
+            <div id="item-description" class="item-detail">Metrocard</div>
+            <div id="item-type" class="item-detail">travel</div>
+            <div id="item-status" class="item-detail">pending</div>
+            <button id="item-approve-btn" class="btn btn-success">Approve</button>
+          </div>
+      </div>
+
+      <div id="control-panel">
+        <div class="button-container">
+          <button class="control-buttons">Sort Pending</button>
+          <button class="control-buttons">Sort Time</button>
+          <button class="control-buttons">All Past</button>
+        </div>
+      </div>
+</body>
+</html>

@@ -11,8 +11,10 @@ public class Reimbursement {
     private Integer resolver;
     private Integer status_id;
     private Integer type_id;
+    private String status;
+    private String type;
 
-    public Reimbursement(Integer id, Double amount, String time_submitted, String time_resolved, String description, String receipt, Integer author, Integer resolver, Integer status_id, Integer type_id) {
+    public Reimbursement(Integer id, Double amount, String time_submitted, String time_resolved, String description, String receipt, Integer author, Integer resolver, Integer status_id, Integer type_id, String status, String type) {
         this.id = id;
         this.amount = amount;
         this.time_submitted = time_submitted;
@@ -23,6 +25,8 @@ public class Reimbursement {
         this.resolver = resolver;
         this.status_id = status_id;
         this.type_id = type_id;
+        this.status = status;
+        this.type = type;
     }
 
     public Reimbursement() {
@@ -108,6 +112,22 @@ public class Reimbursement {
         this.type_id = type_id;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 
     @Override
     public String toString() {
@@ -122,7 +142,10 @@ public class Reimbursement {
             ", resolver='" + getResolver() + "'" +
             ", status_id='" + getStatus_id() + "'" +
             ", type_id='" + getType_id() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", type='" + getType() + "'" +
             "}";
     }
+    
 
 }

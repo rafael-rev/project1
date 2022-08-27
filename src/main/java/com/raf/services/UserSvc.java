@@ -45,16 +45,12 @@ public class UserSvc {
         return false;
     }
 
-    // user view all past reimb requests
+    // user view all past reimb requests - GOOD
     public List<Reimbursement> viewPastRequests(User user){
-        //DateTimeFormatter dfmt = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-
-        // LocalDateTime now = LocalDateTime.now();
-        //System.out.println("Current time: "+dfmt.format(java.time.LocalDateTime.now()));
         return rDao.getReimbsViaNowAndStrCondition(user.getUsername(), "<", "=", "r.reimb_submitted", "u.ers_username");        
     }
 
-    // user create new request
+    // user create new request - GOOD
     public void createRequest(Reimbursement input){
         this.rDao.createNewRequestFromReimbObj(input);
     }

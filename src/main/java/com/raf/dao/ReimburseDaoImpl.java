@@ -40,6 +40,21 @@ public class ReimburseDaoImpl implements ReimburseDao{
     }
 
     /////// RETRIEVE
+    public Reimbursement getOneReimbByID(Integer reimb_id){
+        Reimbursement reimb = null;
+        try(Connection conn = ConnectUtil.getConnection()){
+            String qry = "select * from ers_reimbursement where reimb_id = ?";
+            PreparedStatement ps = conn.prepareStatement(qry);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12));
+            }
+            conn.close();
+        }catch(SQLException e){
+            logger.error("ReimburseDao - getOneReimbByID : SQLException", e);
+        }
+        return reimb;
+    }
     // get list of reimbursement objects
     public List<Reimbursement> getListOfAllReimbObjs(){
         Reimbursement reimb = null;
@@ -50,7 +65,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                allReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                allReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -69,7 +84,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setInt(1, status);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                statusReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                statusReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -88,7 +103,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setInt(1, auth_id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                authorReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                authorReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -107,7 +122,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setInt(1, resolver_id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                resolverReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                resolverReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -126,7 +141,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                resolverReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                resolverReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -147,7 +162,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(2, whereTgtTwo);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                twoStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                twoStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -168,7 +183,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(2, whereTgtTwo);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -188,7 +203,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(1, whereTgt);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                tsAndStrReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -208,7 +223,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setInt(2, whereTgtTwo);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                twoIntReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                twoIntReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -228,7 +243,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(2, whereTgtTwo);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                twoMixedCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                twoMixedCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -247,7 +262,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             ps.setString(1, whereTgt);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                oneStrCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                oneStrCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){
@@ -260,13 +275,13 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> oneIntCondReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u."+whereCond+" "+operator+" ?";
+            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCond+" "+operator+" ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setInt(1, whereTgt);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                oneIntCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10)));
+                oneIntCondReimbs.add(reimb = new Reimbursement(rs.getInt(1), rs.getDouble(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11), rs.getString(12)));
             }
             conn.close();
         }catch(SQLException e){

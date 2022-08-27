@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee - Make New Request</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../index.html">Reimbursement Portal</a>
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <!-- <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">New Request</a>
+              </li> -->
+            </ul>
+          </div>
+          <button id="logout-button" class="button btn btn-danger" type="submit">logout</button>
+        </div>
+      </nav>
+      <div id="display-container">
+
+      <div id="newrequest-container">
+        <div id="newrequest-box">
+            <div id="newrequest-info">Enter request info</div>
+            <form action="http://localhost:8999/" method="POST">
+                <input type="number" class="fields" name="" id="amount-input" placeholder="amount">
+                <input type="text" class="fields" name="" id="description-input" placeholder="enter description">
+                <div id="type-selector-container">
+                  <span class="radio-label">Lodging</span>
+                  <input type="radio" name="lodging">
+                  <span class="radio-label">Travel</span>
+                  <input type="radio" name="travel">
+                  <span class="radio-label">Food</span>
+                  <input type="radio" name="food">
+                  <span class="radio-label">Other</span>
+                  <input type="radio" name="other">
+                </div>
+                <div id="request-form-buttons">
+                  <input class="btn btn-success" type="submit" value="submit"/>
+                  <input class="btn btn-danger" type="button" value="cancel">
+                </div>                
+                
+            </form>
+        </div>
+    </div>
+</body>
+</html>

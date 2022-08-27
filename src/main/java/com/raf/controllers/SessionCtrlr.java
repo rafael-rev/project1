@@ -18,7 +18,7 @@ public class SessionCtrlr {
             //Store the new User to session
             ctx.sessionAttribute("user", userFromDb);
             //send info to user
-            ctx.json(new Response(true, "successful login", null));
+            ctx.json(new Response(true, "successful login", userFromDb));
         }else{
             ctx.json(new Response(false, "login failed at validation.", null));
         }

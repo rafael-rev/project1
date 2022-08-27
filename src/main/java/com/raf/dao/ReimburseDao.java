@@ -14,6 +14,8 @@ public interface ReimburseDao {
 
 
     /////// RETRIEVE
+    // get one reimb by reimbID
+    Reimbursement getOneReimbByID(Integer reimb_id);
     // get list of reimbursement objects
     List<Reimbursement> getListOfAllReimbObjs();
     // get reimburse obj via status
