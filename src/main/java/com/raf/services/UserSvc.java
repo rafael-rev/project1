@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.xml.transform.Source;
 
+import com.raf.controllers.SessionCtrlr;
 import com.raf.dao.ReimburseDaoImpl;
 import com.raf.dao.UserDaoImpl;
 import com.raf.models.Reimbursement;
@@ -39,6 +40,7 @@ public class UserSvc {
         // check password
         if(userFromDB.getPassword().equals(credsToCheck.getPassword())){
             //then store user role & username
+            SessionCtrlr.currentUser = userFromDB;
             return true;
         }
         // if password check fails
@@ -47,7 +49,7 @@ public class UserSvc {
 
     // user view all past reimb requests - GOOD
     public List<Reimbursement> viewPastRequests(User user){
-        return rDao.getReimbsViaNowAndStrCondition(user.getUsername(), "<", "=", "r.reimb_submitted", "u.ers_username");        
+        return rDao.getReimbsViaNowAndStrCondition(user.getUsername(), "<", "=", "er.reimb_submitted", "u.ers_username");        
     }
 
     // user create new request - GOOD

@@ -5,9 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.raf.controllers.SessionCtrlr;
 import com.raf.models.Reimbursement;
 import com.raf.utils.ConnectUtil;
 
@@ -19,25 +22,61 @@ public class ReimburseDaoImpl implements ReimburseDao{
     /////// CREATE
     public void createNewRequestFromReimbObj(Reimbursement reimb_obj){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Integer type_id = 4;
+        switch(reimb_obj.getType()){
+            case "lodging":
+                type_id = 1;
+                break;
+            case "travel":
+                type_id = 2;
+                break;
+            case "food":
+                type_id = 3;
+                break;
+        }
+        //Integer currentUserID = SessionCtrlr.currentUser.getUsers_id();
+
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id) values (?,?,?,?,?,?,?)";
+            String qry = "insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_description, reimb_author, reimb_status_id, reimb_type_id) values (?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(qry);
             //ps.setInt(1,reimb_obj.getId());
             ps.setDouble(1, reimb_obj.getAmount());
             ps.setTimestamp(2,timestamp);
             //ps.setString(4, reimb_obj.getTime_resolved());
             ps.setString(3,reimb_obj.getDescription());
-            ps.setString(4, reimb_obj.getReceipt());
-            ps.setInt(5, reimb_obj.getAuthor());
+            //ps.setString(4, reimb_obj.getReceipt());
+            ps.setInt(4, SessionCtrlr.currentUser.getUsers_id());
             //ps.setInt(8, reimb_obj.getResolver());
-            ps.setInt(6, reimb_obj.getStatus_id());
-            ps.setInt(7, reimb_obj.getType_id());
+            ps.setInt(5, 1);
+            ps.setInt(6, type_id);
             ps.executeUpdate();
             conn.close();
         }catch(SQLException e){
             logger.error("ReimburseDao - createNewRequestFromReimbObj : SQLException", e);
         }
     }
+    // public void createNewRequestFromReimbObj(Reimbursement reimb_obj){
+    //     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        
+    //     try(Connection conn = ConnectUtil.getConnection()){
+    //         String qry = "insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id) values (?,?,?,?,?,?,?)";
+    //         PreparedStatement ps = conn.prepareStatement(qry);
+    //         //ps.setInt(1,reimb_obj.getId());
+    //         ps.setDouble(1, reimb_obj.getAmount());
+    //         ps.setTimestamp(2,timestamp);
+    //         //ps.setString(4, reimb_obj.getTime_resolved());
+    //         ps.setString(3,reimb_obj.getDescription());
+    //         ps.setString(4, reimb_obj.getReceipt());
+    //         ps.setInt(5, reimb_obj.getAuthor());
+    //         //ps.setInt(8, reimb_obj.getResolver());
+    //         ps.setInt(6, reimb_obj.getStatus_id());
+    //         ps.setInt(7, reimb_obj.getType_id());
+    //         ps.executeUpdate();
+    //         conn.close();
+    //     }catch(SQLException e){
+    //         logger.error("ReimburseDao - createNewRequestFromReimbObj : SQLException", e);
+    //     }
+    // }
 
     /////// RETRIEVE
     public Reimbursement getOneReimbByID(Integer reimb_id){
@@ -60,7 +99,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> allReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author =u.ers_users_id order by reimb_id";
             PreparedStatement ps = conn.prepareStatement(qry);
 
             ResultSet rs = ps.executeQuery();
@@ -135,7 +174,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> resolverReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u.ers_username = ?";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author =u.ers_users_id  where u.ers_username = ?;";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setString(1, username);
@@ -154,7 +193,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> twoStrReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
             System.out.println(qry);
             
             PreparedStatement ps = conn.prepareStatement(qry);
@@ -175,7 +214,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> tsAndStrReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" (?) and "+whereCondTwo+" "+operatorTwo+" (?)";
             System.out.println(qry);
             
             PreparedStatement ps = conn.prepareStatement(qry);
@@ -196,7 +235,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> tsAndStrReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" now() and "+whereCondTwo+" "+operatorTwo+" (?)";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, reimb_resolver, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" now() and "+whereCondTwo+" "+operatorTwo+" (?)";
             System.out.println(qry);
             
             PreparedStatement ps = conn.prepareStatement(qry);
@@ -207,7 +246,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
             }
             conn.close();
         }catch(SQLException e){
-            logger.error("ReimburseDao - getReimbsViaTwoStrConditions : SQLException", e);
+            logger.error("ReimburseDao - getReimbsViaNowAndStrCondition : SQLException", e);
         }
         return tsAndStrReimbs;
     }
@@ -216,7 +255,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> twoIntReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u."+whereCondOne+" "+operatorOne+" ? and "+whereCondTwo+" "+operatorTwo+" ?";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" ? and "+whereCondTwo+" "+operatorTwo+" ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setInt(1, whereTgtOne);
@@ -236,7 +275,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> twoMixedCondReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u."+whereCondOne+" "+operatorOne+" ? and "+whereCondTwo+" "+operatorTwo+" ?";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCondOne+" "+operatorOne+" ? and "+whereCondTwo+" "+operatorTwo+" ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setInt(1, whereTgtOne);
@@ -256,7 +295,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> oneStrCondReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where u."+whereCond+" "+operator+" ?";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCond+" "+operator+" ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setString(1, whereTgt);
@@ -275,7 +314,7 @@ public class ReimburseDaoImpl implements ReimburseDao{
         Reimbursement reimb = null;
         List<Reimbursement> oneIntCondReimbs = new ArrayList<>();
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "select * from ers_reimbursement r inner join ers_users u on r.reimb_author = u.ers_users_id where "+whereCond+" "+operator+" ?";
+            String qry = "select reimb_id, reimb_amount, reimb_submitted, reimb_resolved,reimb_description, reimb_receipt, reimb_author, er.reimb_status_id, er.reimb_type_id, reimb_status, reimb_type from ers_reimbursement er inner join ers_reimbursement_status rs on er.reimb_status_id = rs.reimb_status_id inner join ers_reimbursement_type rt on er.reimb_type_id = rt.reimb_type_id inner join ers_users u on er.reimb_author = u.ers_users_id where "+whereCond+" "+operator+" ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             ps.setInt(1, whereTgt);

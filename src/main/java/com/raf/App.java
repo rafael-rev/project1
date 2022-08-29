@@ -32,6 +32,6 @@ public class App {
     // MANAGER: APPROVE/DENY pending requests --- prob can be done at one endpoint or in JS
     //app.patch("/manager", );
     // MANAGER: FILTER reimbs --- prob can be done at one endpoint or in JS
-    
+    //app.get("/api/manager/pending")
     }
 }

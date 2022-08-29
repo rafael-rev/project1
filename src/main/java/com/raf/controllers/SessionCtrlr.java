@@ -8,6 +8,8 @@ import io.javalin.http.Context;
 public class SessionCtrlr {
     UserSvc uSvc = new UserSvc();
 
+    public static User currentUser = null;
+
     public void login(Context ctx){
         //get creds and save to new User object
         User creds = ctx.bodyAsClass(User.class);

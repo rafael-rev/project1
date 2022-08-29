@@ -1,5 +1,7 @@
 package com.raf.models;
 
+import java.math.BigDecimal;
+
 public class Reimbursement {
     private Integer id;
     private Double amount;
@@ -26,6 +28,21 @@ public class Reimbursement {
         this.status_id = status_id;
         this.type_id = type_id;
         this.status = status;
+        this.type = type;
+    }
+
+    public Reimbursement(Double amount, String time_submitted, String description, Integer author, Integer type_id, Integer status_id, String type) {
+        this.amount = amount;
+        this.time_submitted = time_submitted;
+        this.description = description;
+        this.author = author;
+        this.status_id = status_id;
+        this.type_id = type_id;
+    }
+
+    public Reimbursement(Double amount, String description, String type){
+        this.amount = amount;
+        this.description = description;
         this.type = type;
     }
 
