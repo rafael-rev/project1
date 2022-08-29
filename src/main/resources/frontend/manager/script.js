@@ -95,11 +95,20 @@ function requestLister(requests){
                 event.stopPropagation();
                 let target = event.currentTarget;
                 //console.log(target.querySelector("div").className)
-                let displayData = document.querySelectorAll(".table-data-text");
-                for(i=0;i < itemsArray.length; i++){
-                    let itemDetail = document.getElementById(itemsArray[i]).innerText;
-                    console.log(displayData[i].innerText)
-                    displayData[i].innerText = itemDetail;
+                let displayData = target.querySelectorAll("#item-id");
+                console.log(displayData[0].innerText); // Gets the ID from the Item
+                let targetID = displayData[0].innerText;
+                let targetItem;
+                requests.forEach(request =>{
+                    if(request["id"] == targetID){
+                        targetItem = request;
+                    }
+                })
+                let displayCellElems = document.querySelectorAll(".table-data-text");
+                for(i=0;i < detailKeyArray.length; i++){
+                    let itemDetail = request[detailKeyArray[i]];
+                    displayCellElems[i].innerText = itemDetail;
+                    
                 }
                 
         });
@@ -135,7 +144,8 @@ function displayPage(){
     headersListElem.className = "listbox";
     let dataListElem = document.createElement("ul");
     dataListElem.className = "listbox";
-    detailPanelTextHeaders.append(headersListElem, dataListElem);
+    detailPanelTextHeaders.append(headersListElem);
+    detailPanelData.append(dataListElem);
     let headersArr = ["ID", "Employee", "Amount", "Submit Time", "Description", "Type", "Status"];
     for(i=0;i<headersArr.length;i++){
         let headerItem = document.createElement("li");
