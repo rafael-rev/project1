@@ -95,13 +95,16 @@ function displayRequestForm(){
     let submitButtonElem = document.createElement("input");
     submitButtonElem.classList.add("btn", "btn-success");
     submitButtonElem.type = "submit";
-
+    
     let cancelButtonElem = document.createElement("button");
     cancelButtonElem.classList.add("btn", "btn-danger");
     cancelButtonElem.innerText = "Cancel"
-    cancelButtonElem.addEventListener("click", () => {
+    cancelButtonElem.type = "button";
+    cancelButtonElem.addEventListener("click", (event) => {
+        event.stopPropagation();
         window.location = "../user";
-    })
+        console.log("Clicked Cancel")
+    });
     // APPEND
     reqFormElem.appendChild(inpAmtFieldElem);
     reqFormElem.appendChild(inpDescrFieldElem);
@@ -115,3 +118,15 @@ function displayRequestForm(){
     
     newRequestContainer.appendChild(reqBoxElem);
 }
+// LOGOUT BUTTON FUNCTIONALITY
+let logoutButton = document.getElementById("logout-button");
+console.log(logoutButton);
+logoutButton.type = "button";
+logoutButton.addEventListener("click", async () => {
+    console.out("logout clicked")
+    let response = await fetch("/session", {
+        method: "DELETE"
+    });
+    let responseBody = await response.json();
+    window.location = "../";
+});

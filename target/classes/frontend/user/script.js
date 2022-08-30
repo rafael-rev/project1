@@ -33,31 +33,9 @@ async function getUserRequests(){
     return responseBody.data;
 }
 
-// let itemsDict = {
-//     "item-id": "Item1",
-//     "item-value": "$700.00",
-//     "item-submitted": "2022-08-02",
-//     "item-description": "Prostitutes",
-//     "item-type": "item-detail",
-//     "item-status": "pending"
-// }
-
 let itemsArray = ["item-id", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
 
 let detailKeyArray = ["id", "amount", "time_submitted", "description", "type", "status"];
-
-function elementCreator(tag, properties){
-    // assign copies given properties to the element made from the tag, then returns the element
-    return Object.assign(document.createElement(tag), (properties || {}));
-}
-
-function childAppender(parent, child){
-    // appends a child to a parent and returns the parent
-    // for recursive adding for logical hierarchy
-    if(child){
-        parent.appendChild(child);
-    }return parent;
-}
 
 function displayRequests(){
     requests.forEach(request => {
@@ -106,5 +84,17 @@ function displayRequests(){
     // APPEND
     buttonContainerElem.appendChild(ctrlpanelButtonElem);
     controlPanel.appendChild(buttonContainerElem);
-    
 }
+
+// LOGOUT BUTTON FUNCTIONALITY
+let logoutButton = document.getElementById("logout-button");
+console.log(logoutButton);
+logoutButton.type = "button";
+logoutButton.addEventListener("click", async () => {
+    console.log("logout clicked")
+    let response = await fetch("/session", {
+        method: "DELETE"
+    });
+    let responseBody = await response.json();
+    window.location = "../";
+});

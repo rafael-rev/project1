@@ -27,10 +27,6 @@ window.onload = async () => {
         console.log(request);
     })
     displayPage(requests);
-    getFullName(2);
-    console.log(assessRequest(true));
-    // let itemCollection = document.getElementsByClassName("item-detail");
-    //     console.log(itemCollection);
 }
 // FUNCTION TO GET ALL REIMB REQUESTS IN SYSTEM
 async function getRequests(){
@@ -60,7 +56,7 @@ function parseApprovedFromRequests(){
 function parseRejectedFromRequests(){
     outputArr = [];
     requests.forEach((request) => {
-        if(request["status"] === "rejected"){
+        if(request["status"] === "denied"){
             outputArr.push(request);
         }
     });
@@ -291,3 +287,15 @@ function displayAll(){
     clearRequestItems();
     requestLister(requests);
 }
+// LOGOUT BUTTON FUNCTIONALITY
+let logoutButton = document.getElementById("logout-button");
+console.log(logoutButton);
+logoutButton.type = "button";
+logoutButton.addEventListener("click", async () => {
+    console.log("logout clicked")
+    let response = await fetch("/session", {
+        method: "DELETE"
+    });
+    let responseBody = await response.json();
+    window.location = "../";
+});
