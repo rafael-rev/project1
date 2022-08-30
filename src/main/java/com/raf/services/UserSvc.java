@@ -45,6 +45,7 @@ public class UserSvc {
         if(userFromDB.getPassword().equals(credsToCheck.getPassword())){
             //then store user role & username
             SessionCtrlr.currentUser = userFromDB;
+            SessionCtrlr.currentUserID = userFromDB.getUsers_id();
             return true;
         }
         // if password check fails

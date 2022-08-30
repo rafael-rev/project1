@@ -334,14 +334,15 @@ public class ReimburseDaoImpl implements ReimburseDao{
     // resolverID will be stored upon manager login
     public void modifyRequestViaReimbID(Integer reimb_id, Integer status_id){
         try(Connection conn = ConnectUtil.getConnection()){
-            String qry = "update ers_reimbursement set (reimb_resolved, reimb_resolver, reimb_status_id) = (?,?,?)";
+            String qry = "update ers_reimbursement set (reimb_resolved, reimb_resolver, reimb_status_id) = (now(),?,?) where reimb_id = ?";
             
             PreparedStatement ps = conn.prepareStatement(qry);
             // NOTE need to set one to Java gen "now" timestamp
             // NOTE need to change 2 to reflect stored manager ID
-            ps.setString(1, "");
-            ps.setInt(2, 0);
-            ps.setInt(3, status_id);
+            //ps.setString(1, "");
+            ps.setInt(1, SessionCtrlr.currentUserID);
+            ps.setInt(2, status_id);
+            ps.setInt(3, reimb_id);
             ps.executeUpdate();
             conn.close();
         }catch(SQLException e){

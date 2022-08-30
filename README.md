@@ -9,9 +9,9 @@
 
 **As a Finance Manager**:
 - I can login to the system to access the Finance Manager Dashboard - DONE
-- I can view all reimbursement requests in the system - DONE IN JAVA ***
-- I can approve or deny pending reimbursement requests - FUNCTION DONE, need ENDPOINT PROOF
-- I can filter reimbursements by status - FUNCTION DONE, need ENDPOINT PROOF
+- I can view all reimbursement requests in the system - DONE 
+- I can approve or deny pending reimbursement requests - DONE
+- I can filter reimbursements by status - DONE
 
 
 **OPTIONAL:**

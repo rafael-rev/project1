@@ -37,11 +37,11 @@ public class ReimburseSvc {
 
     // manager approve/deny pending req
     public Response answerRequest(Integer reimb_id, Boolean approved){
-        Response response;
+        Response response = null;;
         if(approved == true){
             rDao.modifyRequestViaReimbID(reimb_id, 2);
             response = new Response(true, "Approved Request.", null);
-        }else{
+        }else if(approved == false){
             rDao.modifyRequestViaReimbID(reimb_id, 3);
             response = new Response(false, "Request Rejected.", null);
         }

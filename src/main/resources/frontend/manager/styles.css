@@ -76,6 +76,8 @@
     border: 2px rgb(149, 213, 255) solid;
     background-color: rgb(149, 213, 255);
     width: 40%;
+    display: flex;
+    flex-direction: column;
 }
 
 #detail-panel-text{
@@ -112,4 +114,13 @@
 }
 .control-buttons:hover{
     background-color: rgb(184, 213, 245);
+}
+
+.assess-btn{
+    margin: 5px;
+}
+
+#app-rej-button-container{
+    display: flex;
+    justify-content: center;
 }

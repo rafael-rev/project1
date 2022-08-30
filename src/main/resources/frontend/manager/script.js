@@ -6,7 +6,8 @@ let controlPanel = document.getElementById("control-panel"); // contains control
 let detailPanel = document.getElementById("detail-panel"); // contains details for a req
 let overallDisplay = document.getElementById("main-display"); // contains totalItemContainer & detailPanel
 let itemsArray = ["item-id", "item-author", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
-
+let currentSelectedItem;
+let targetItemID = 1;
 // 3. set up the window load to check for session. If no session redir to login page
 //      else, save the user and requests to the globals
 window.onload = async () => {
@@ -27,16 +28,17 @@ window.onload = async () => {
     })
     displayPage(requests);
     getFullName(2);
+    console.log(assessRequest(true));
     // let itemCollection = document.getElementsByClassName("item-detail");
     //     console.log(itemCollection);
 }
-// 4
+// FUNCTION TO GET ALL REIMB REQUESTS IN SYSTEM
 async function getRequests(){
     let response = await fetch("http://localhost:8999/api/manager");
     let responseBody = await response.json();
     return responseBody.data;
 }
-
+// FUNCTIONS TO FILTER REIMBURSEMENTS BY STATUS
 function parsePendingFromRequests(){
     outputArr = [];
     requests.forEach((request) => {
@@ -46,7 +48,6 @@ function parsePendingFromRequests(){
     });
     return outputArr;
 }
-
 function parseApprovedFromRequests(){
     outputArr = [];
     requests.forEach((request) => {
@@ -77,36 +78,37 @@ function requestLister(requests){
 
         // The 6 details to populate the ITEM
         for(i = 0; i < itemsArray.length; i++){
-            //console.log("ITEM DETAIL ITER "+i);
             let itemDetailElem = document.createElement("div");
             itemDetailElem.className = "item-detail";
-            //console.log("ITEM ID: "+itemsArray[i]);
             itemDetailElem.id = itemsArray[i];
-            //console.log("DETAIL: "+detailKeyArray[i]);
-            
             // Setting the details for each of the 6;
-            // color coding pending/approved status
+            // color coding pending/approved/rejected status
             itemDetailElem.innerText = request[detailKeyArray[i]];
             if(request[detailKeyArray[i]]=="pending"){
                 itemDetailElem.style.color = "yellow";
+            }else if(request[detailKeyArray[i]]=="denied"){
+                itemDetailElem.style.color = "red";
             }
             itemElem.appendChild(itemDetailElem);
         }
+        // EVENT "CLICK" Function for individual items
+        // used to populate the Details Panel on the left and set the current item so the buttons can work on it
         itemElem.addEventListener("click", async (event) => {
                 event.stopPropagation();
                 let target = event.currentTarget;
-                //console.log(target.querySelector("div").className)
                 // Gets the userID from the Item
                 let itemAuthorDiv = target.querySelectorAll("#item-author");
-                console.log(itemAuthorDiv[0].innerText); 
+                console.log(`USERID: ${itemAuthorDiv[0].innerText}`); 
                 let targetUserID = itemAuthorDiv[0].innerText;
                 // Gets the selected Item's ID
                 let displayData = target.querySelectorAll("#item-id");
-                let targetItemID = displayData[0].innerText;
-                let targetItem;  // var to store the full Item that matches the condition by ID#
+                targetItemID = displayData[0].innerText;
+                console.log(`INCLICK ${targetItemID}`)
+                let targetItem;  // var to store the full Item that matches the condition by ID# -- store for function and globally for other work (assess buttons)
                 requests.forEach(request =>{
                     if(request["id"] == targetItemID){
                         targetItem = request;
+                        currentSelectedItem = request;
                     }
                 })
                 let displayCellElems = document.querySelectorAll(".table-data-text");
@@ -124,10 +126,6 @@ function requestLister(requests){
     });
 }
 
-function displayDetailsForReq(id, author, value, submitted, description, type, status){
-    let detailPanelEntry = document.getElementById("detail-panel-text");
-}
-
 async function getFullName(id){
     let response = await fetch(`/api/manager/${id}`, {
         method: "GET"
@@ -136,9 +134,34 @@ async function getFullName(id){
     return responseBody;
 }
 
-function displayPage(){
-    // let detailPanel = document.createElement("div");
-    // detailPanel.id = "detail-panel";
+async function assessRequest(accept_code){
+    console.log(`IN ASSESSREQ: ${targetItemID}`);
+    console.log(typeof(parseInt(targetItemID)));
+    // let accept_bool;
+    // if(accept_code == 1){
+    //     accept_bool = true;
+    // }else if(accept_code == 0){
+    //     accept_bool = false;
+    // }else{
+    //     console.log("Bad Code Given -- only 0 or 1")
+    // }
+    let request = {
+        "id":parseInt(targetItemID),
+        "accept":accept_code
+    }
+    console.log(`REQUEST: ${request}`)
+    console.log(request)
+    
+    let response = await fetch(`/api/manager?id=${targetItemID}&accept=${accept_code}`,{
+        method: "PATCH",
+        body: JSON.stringify(request)
+    });
+    let responseBody = await response.text();
+    return responseBody;
+}
+
+async function displayPage(){
+    // Left Details Panel elements
     let detailPanelTitleContainer = document.createElement("div");
     detailPanelTitleContainer.id = "detail-panel-title";
     detailPanel.appendChild(detailPanelTitleContainer);
@@ -160,6 +183,38 @@ function displayPage(){
     dataListElem.className = "listbox";
     detailPanelTextHeaders.append(headersListElem);
     detailPanelData.append(dataListElem);
+    // assess buttons
+    let assessButtonContainer = document.createElement("div");
+    assessButtonContainer.id = "app-rej-button-container";
+    let acceptButton = document.createElement("button");
+    acceptButton.id = "item-approve-btn";
+    acceptButton.className = "assess-btn";
+    acceptButton.classList.add("btn", "btn-success");
+    acceptButton.innerText = "Success";
+    acceptButton.addEventListener("click", async (event) => {
+        let accResponse = await assessRequest(1);
+        console.log(currentSelectedItem);
+        console.log(accResponse);
+        // if(response.success == true){
+        //     window.setTimeout(detailPanelTitle_Text.innerText='Approval Logged', 3000);
+        // }
+    });
+    let rejectButton = document.createElement("button");
+    rejectButton.id = "item-reject-btn";
+    rejectButton.className = "assess-btn";
+    rejectButton.classList.add("btn", "btn-danger");
+    rejectButton.innerText = "Reject";
+    rejectButton.addEventListener("click", async (event) => {
+        let rejResponse = await assessRequest(0);
+        console.log(currentSelectedItem);
+        console.log(rejResponse);
+        // if(response.success == false){
+        //     window.setTimeout(detailPanelTitle_Text.innerText='Rejection Logged', 3000);
+        // }
+    });
+    assessButtonContainer.append(acceptButton, rejectButton);
+    detailPanel.appendChild(assessButtonContainer);
+    // inner detail panel headers and data divs
     let headersArr = ["ID", "Employee", "Amount", "Submit Time", "Description", "Type", "Status"];
     for(i=0;i<headersArr.length;i++){
         let headerItem = document.createElement("li");
@@ -172,14 +227,14 @@ function displayPage(){
         headersListElem.appendChild(headerItem);
         dataListElem.appendChild(dataItem);
     }
+    // This function populates the list of items on the right
     requestLister(requests);
     // TARGET: controlPanel
-    // making the buttons
-    //  only 2 buttons, so 
+    // contains the buttons for filtering results
     let buttonContainerElem = document.createElement("div");
     buttonContainerElem.className = "button-container";
 
-    let buttonTxt = ["Pending", "Approved", "Rejected", "All"];
+    let buttonTxt = ["Pending", "Approved", "Denied", "All"];
     let btnID = ["btn-pending", "btn-approved", "btn-rejected", "btn-all"];
     for(i=0;i<buttonTxt.length;i++){
         let buttonElem = document.createElement("button");
@@ -189,7 +244,7 @@ function displayPage(){
         buttonContainerElem.appendChild(buttonElem);
     }
     controlPanel.appendChild(buttonContainerElem);
-
+    // FILTER BUTTON FUNCTIONS
     let pendingButton = document.getElementById("btn-pending");
     pendingButton.addEventListener("click", () => {
         displayPending();
@@ -209,51 +264,30 @@ function displayPage(){
     // APPEND
     overallDisplay.appendChild(detailPanel);
     overallDisplay.appendChild(totalItemContainer);
-    
-    
 }
-
+// List Manipulation functions for Control Panel buttons
 function clearRequestItems(){
     let items = Array.from(document.getElementsByClassName("item"));
     items.forEach(item => {
         item.remove();
     });
 }
-
 function displayPending(){
     let pendingSet = parsePendingFromRequests();
     clearRequestItems();
     requestLister(pendingSet);
 }
-
 function displayApproved(){
     let approvedSet = parseApprovedFromRequests();
     clearRequestItems();
     requestLister(approvedSet);
 }
-
 function displayRejected(){
     let rejectedSet = parseRejectedFromRequests();
     clearRequestItems();
     requestLister(rejectedSet);
 }
-
 function displayAll(){
     clearRequestItems();
     requestLister(requests);
-}
-
-function getOneForDisplayPanel(){
-    // use a filter by ID func
-    // parse that request/item into a list
-    // 
-}
-
-function assessRequest(decision){
-    // have "current request" already set by click
-    if(decision){
-        // toggle pending to approved for the request
-    }else{
-        // toggle rejected, color request status text red
-    }
 }

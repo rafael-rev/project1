@@ -1,5 +1,7 @@
 package com.raf.controllers;
 import java.util.List;
+
+import com.raf.models.Approval;
 import com.raf.models.Reimbursement;
 import com.raf.models.Response;
 import com.raf.services.ReimburseSvc;
@@ -33,6 +35,23 @@ public class MgrCtrlr {
 
     // UPDATE
     public void mgrAssessRequest(Context ctx){
+        Response response;
+        try{
+            Approval approval = ctx.bodyAsClass(Approval.class);
+            System.out.println(approval);
+            Boolean choice = false;
+            if(approval.getAccept() == 0){
+                choice = false;
+            }else if(approval.getAccept() == 1){
+                choice = true;
+            }
+            response = rSvc.answerRequest(approval.getId(), choice);
+            System.out.println(response);
+            ctx.json(response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
         
     }
 }

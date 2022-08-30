@@ -9,6 +9,7 @@ public class SessionCtrlr {
     UserSvc uSvc = new UserSvc();
 
     public static User currentUser = null;
+    public static Integer currentUserID = 0;
 
     public void login(Context ctx){
         //get creds and save to new User object
