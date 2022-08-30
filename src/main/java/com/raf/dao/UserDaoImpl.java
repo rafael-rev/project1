@@ -73,4 +73,23 @@ public class UserDaoImpl implements UserDao{
         return output;
 
     }
+
+    public String getFullnameByUserID(Integer userID){
+        String output = "";
+        try(Connection conn = ConnectUtil.getConnection()){
+            String qry = "select user_first_name || ' ' || user_last_name from ers_users u inner join ers_reimbursement er on u.ers_users_id = er.reimb_author where er.reimb_author = ?";
+            PreparedStatement ps = conn.prepareStatement(qry);
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                output = rs.getString(1);
+            }
+            conn.close();
+        }catch(SQLException e){
+            logger.error("UserDao - getFullnameByUserID : SQLException", e);
+        }
+        return output;
+
+    }
 }

@@ -26,6 +26,7 @@ window.onload = async () => {
         console.log(request);
     })
     displayPage(requests);
+    getFullName(2);
     // let itemCollection = document.getElementsByClassName("item-detail");
     //     console.log(itemCollection);
 }
@@ -91,26 +92,32 @@ function requestLister(requests){
             }
             itemElem.appendChild(itemDetailElem);
         }
-        itemElem.addEventListener("click", (event) => {
+        itemElem.addEventListener("click", async (event) => {
                 event.stopPropagation();
                 let target = event.currentTarget;
                 //console.log(target.querySelector("div").className)
+                // Gets the userID from the Item
+                let itemAuthorDiv = target.querySelectorAll("#item-author");
+                console.log(itemAuthorDiv[0].innerText); 
+                let targetUserID = itemAuthorDiv[0].innerText;
+                // Gets the selected Item's ID
                 let displayData = target.querySelectorAll("#item-id");
-                console.log(displayData[0].innerText); // Gets the ID from the Item
-                let targetID = displayData[0].innerText;
-                let targetItem;
+                let targetItemID = displayData[0].innerText;
+                let targetItem;  // var to store the full Item that matches the condition by ID#
                 requests.forEach(request =>{
-                    if(request["id"] == targetID){
+                    if(request["id"] == targetItemID){
                         targetItem = request;
                     }
                 })
                 let displayCellElems = document.querySelectorAll(".table-data-text");
-                for(i=0;i < detailKeyArray.length; i++){
-                    let itemDetail = request[detailKeyArray[i]];
-                    displayCellElems[i].innerText = itemDetail;
-                    
-                }
-                
+                // for(i=0;i < detailKeyArray.length; i++)
+                displayCellElems[0].innerText = targetItem["id"]; // ID field
+                displayCellElems[1].innerText = await getFullName(targetUserID);  // Employee field
+                displayCellElems[2].innerText = targetItem["amount"];
+                displayCellElems[3].innerText = targetItem["time_submitted"];
+                displayCellElems[4].innerText = targetItem["description"];
+                displayCellElems[5].innerText = targetItem["type"];
+                displayCellElems[6].innerText = targetItem["status"];   
         });
         // After adding the details, append the item to the displayContainer
         totalItemContainer.appendChild(itemElem);
@@ -119,7 +126,14 @@ function requestLister(requests){
 
 function displayDetailsForReq(id, author, value, submitted, description, type, status){
     let detailPanelEntry = document.getElementById("detail-panel-text");
-    
+}
+
+async function getFullName(id){
+    let response = await fetch(`/api/manager/${id}`, {
+        method: "GET"
+    });
+    let responseBody = await response.text();
+    return responseBody;
 }
 
 function displayPage(){

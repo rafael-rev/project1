@@ -12,24 +12,19 @@ public class UserCtrlr {
 
     // CREATE - DONE
     public void makeReimbFromJSON(Context ctx){
-        // String newReimb = ctx.body();
-        // System.out.println("REIMB TEMP");
-        // System.out.println(newReimb);
-        // System.out.println(newReimb);
         Reimbursement newReimb = ctx.bodyAsClass(Reimbursement.class);
-        System.out.println("NEW REIMB TMP: ");
-        System.out.println(newReimb);
-        
-         
-
+        //System.out.println("NEW REIMB TMP: ");
+        //System.out.println(newReimb);
         try{
             uSvc.createRequest(newReimb);
             ctx.json(new Response(true, "Request submitted.", newReimb));
             System.out.println("Request success.");
+            ctx.status(200);
         }catch(Exception e){
             ctx.json(new Response(false, "mkFromJSON-REQ: Request failed.", null));
             System.out.println("mkfromJSON: Request failed.");
             e.printStackTrace();
+            ctx.status(500);
         }
     }
 
@@ -44,5 +39,11 @@ public class UserCtrlr {
         }else{
             ctx.json(new Response(true, "User requests returned.", items));
         }
+    }
+
+    public void getFullNameViaID(Context ctx){
+        Integer id = Integer.parseInt(ctx.pathParam("id"));
+        String fullname = uSvc.getFullNameByID(id);
+        ctx.result(fullname);
     }
 }

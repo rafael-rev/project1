@@ -30,6 +30,10 @@ public class UserSvc {
         return uDao.getUserByUsername(user);
     }
 
+    public String getFullNameByID(Integer user_id){
+        return uDao.getFullnameByUserID(user_id);
+    }
+
     // user cred validation - GOOD
     public Boolean validateCreds(User credsToCheck){
         // get user from db

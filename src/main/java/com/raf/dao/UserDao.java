@@ -18,6 +18,7 @@ public interface UserDao {
     // Get Username from UserID/AuthorID
     String getUsernameByUserID(Integer userID);
 
+    String getFullnameByUserID(Integer userID);
     /////// UPDATE
     //  -- User entries modification not required
 

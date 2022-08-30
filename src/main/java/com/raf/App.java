@@ -28,7 +28,7 @@ public class App {
 
     // MANAGER: VIEW ALL reimb requests in system - DONE
     app.get("/api/manager", mCtrl::mgrViewReimbsInSys);
-
+    app.get("/api/manager/{id}", uCtrl::getFullNameViaID);
     // MANAGER: APPROVE/DENY pending requests --- prob can be done at one endpoint or in JS
     //app.patch("/manager", );
     // MANAGER: FILTER reimbs --- prob can be done at one endpoint or in JS
