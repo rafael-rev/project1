@@ -8,10 +8,8 @@ import com.raf.models.Reimbursement;
 public interface ReimburseDao {
 
     ////////////////// FOLLOW CRUD
-
     /////// CREATE
     void createNewRequestFromReimbObj(Reimbursement reimb_obj);
-
 
     /////// RETRIEVE
     // get one reimb by reimbID
@@ -40,12 +38,8 @@ public interface ReimburseDao {
     List<Reimbursement> getReimbsViaOneStrCondition(String whereTgt, String operator, String whereCond);
 // get reimbs via 1 int condition
     List<Reimbursement> getReimbsViaOneIntCondition(Integer whereTgt, String operator, String whereCond);
+    
     /////// UPDATE
     // update request entry by ID for fields (resolved time, resolver, status_id)
     void modifyRequestViaReimbID(Integer reimb_id, Integer status_id);
-
-    /////// DELETE
-    //  -- probably not required as denied requests persist in db
-    
-    
 }

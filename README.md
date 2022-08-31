@@ -4,7 +4,7 @@
 
 **As an employee**:
 - I can login to the system to access the employee dashboard - DONE
-- I can view all of my past reimbursement requests - DONE -- NEEDS VISUAL CLEANUP
+- I can view all of my past reimbursement requests - DONE
 - I can create a new reimbursement request - DONE
 
 **As a Finance Manager**:

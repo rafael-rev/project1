@@ -15,20 +15,19 @@ public class App {
             config.addStaticFiles("/frontend", Location.CLASSPATH);
         }).start(8999);
 
-    // SESSION ENDPOINTS - DONE
+    // SESSION ENDPOINTS
     app.get("/session", sCtrl::checkSession);
     app.post("/session", sCtrl::login);
     app.delete("/session", sCtrl::logout);
     
-    // USER: MAKE NEW REIMB REQUEST - DONE
+    // USER: MAKE NEW REIMB REQUEST
     app.post("/api/user", uCtrl::makeReimbFromJSON);
-
-    // USER: VIEW past requests - DONE
+    // USER: VIEW past requests
     app.get("/api/user", uCtrl::viewPastRequests);
 
-    // MANAGER: VIEW ALL reimb requests in system - DONE
+    // MANAGER: VIEW ALL reimb requests in system
     app.get("/api/manager", mCtrl::mgrViewReimbsInSys);
-    // MANAGER-UTIL: Get Full User name via ID (Path Param) - DONE
+    // MANAGER-UTIL: Get Full User name via ID (Path Param)
     app.get("/api/manager/{id}", uCtrl::getFullNameViaID);
     // MANAGER: APPROVE/DENY pending requests (Query Param)
     app.patch("/api/manager", mCtrl::mgrAssessRequest);

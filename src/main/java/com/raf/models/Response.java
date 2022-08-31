@@ -5,7 +5,6 @@ public class Response {
     String message;
     Object data;
 
-
     public Response() {
     }
 
@@ -43,7 +42,6 @@ public class Response {
         this.data = data;
     }
 
-
     @Override
     public String toString() {
         return "{" +
@@ -52,5 +50,4 @@ public class Response {
             ", data='" + getData() + "'" +
             "}";
     }
-
 }

@@ -1,9 +1,5 @@
 package com.raf.services;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import javax.xml.transform.Source;
-
 import com.raf.controllers.SessionCtrlr;
 import com.raf.dao.ReimburseDaoImpl;
 import com.raf.dao.UserDaoImpl;
@@ -13,8 +9,6 @@ import com.raf.models.User;
 public class UserSvc {
     UserDaoImpl uDao;
     ReimburseDaoImpl rDao;
-
-    // TODO: Make a logger to track validation
 
     // Loosely bound constructors for Mockito compatability
     public UserSvc(){
@@ -34,7 +28,7 @@ public class UserSvc {
         return uDao.getFullnameByUserID(user_id);
     }
 
-    // user cred validation - GOOD
+    // user cred validation
     public Boolean validateCreds(User credsToCheck){
         // get user from db
         User userFromDB = uDao.getUserByUsername(credsToCheck.getUsername());
@@ -52,14 +46,13 @@ public class UserSvc {
         return false;
     }
 
-    // user view all past reimb requests - GOOD
+    // user view all past reimb requests
     public List<Reimbursement> viewPastRequests(User user){
         return rDao.getReimbsViaNowAndStrCondition(user.getUsername(), "<", "=", "er.reimb_submitted", "u.ers_username");        
     }
 
-    // user create new request - GOOD
+    // user create new request
     public void createRequest(Reimbursement input){
         this.rDao.createNewRequestFromReimbObj(input);
     }
-    
 }

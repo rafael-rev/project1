@@ -6,10 +6,6 @@ public interface UserDao {
 
     ////////////////// FOLLOW CRUD
 
-    /////// CREATE
-    //  -- creating new Users not required
-
-
     /////// RETRIEVE
     // Get User obj by username
     User getUserByUsername(String username);
@@ -17,10 +13,6 @@ public interface UserDao {
     List<User> getUserListByStatus(Integer status);
     // Get Username from UserID/AuthorID
     String getUsernameByUserID(Integer userID);
-
+    // Get Full Name from UserID
     String getFullnameByUserID(Integer userID);
-    /////// UPDATE
-    //  -- User entries modification not required
-
-    /////// DELETE
-}   //  -- User entry deletion not required
+}

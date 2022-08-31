@@ -1,7 +1,5 @@
 package com.raf.models;
 
-import java.math.BigDecimal;
-
 public class Reimbursement {
     private Integer id;
     private Double amount;
@@ -145,7 +143,6 @@ public class Reimbursement {
         this.type = type;
     }
 
-
     @Override
     public String toString() {
         return "{" +
@@ -163,6 +160,4 @@ public class Reimbursement {
             ", type='" + getType() + "'" +
             "}";
     }
-    
-
 }

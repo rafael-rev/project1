@@ -57,6 +57,8 @@
 }
 #item-value{
     width: 100px;
+    justify-self: center;
+    text-align: end;
 }
 #item-submitted{
     width: 180px;
@@ -86,6 +88,7 @@
 #item-value-header{
     font-weight: bold;
     width: 100px;
+    text-align: center;
 }
 #item-submitted-header{
     font-weight: bold;
@@ -109,12 +112,12 @@
 #control-panel{
     background-color:rgb(221, 184, 88);
     position: fixed;
-    bottom: 5px;
+    bottom: 2px;
     display: flex;
     justify-content: center;
     padding: 5px;
     width: 100%;
-    box-shadow: 2px 2px 5px goldenrod;
+    box-shadow: 2px 2px 5px black;
 }
 
 #button-container{

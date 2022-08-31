@@ -9,7 +9,6 @@ public class User {
     private String email;
     private Integer role_id;
 
-
     public User(Integer users_id, String username, String password, String first_name, String last_name, String email, Integer role_id) {
         this.users_id = users_id;
         this.username = username;
@@ -97,5 +96,4 @@ public class User {
             ", role_id='" + getRole_id() + "'" +
             "}";
     }
-
 }

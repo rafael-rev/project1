@@ -1,8 +1,10 @@
 // 2. set up needed globals
 let user;
 let requests;
-let displayContainer = document.getElementById("display-container");
+let displayContainer = document.getElementById("display-container"); //Main display div
 let controlPanel = document.getElementById("control-panel");
+const itemsArray = ["item-id", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
+const detailKeyArray = ["id", "amount", "time_submitted", "description", "type", "status"];
 
 // 3. set up the window load to check for session. If no session redir to login page
 //      else, save the user and requests to the globals
@@ -17,70 +19,59 @@ window.onload = async () => {
         user = responseBody.data;
         requests = await getUserRequests();
     }
-    console.log(requests);
-    requests.forEach((request, id) => {
-        console.log("REQUEST#"+id+": ");
-        console.log(request);
-    })
     displayRequests();
-    // let itemCollection = document.getElementsByClassName("item-detail");
-    //     console.log(itemCollection);
 }
-// 4
+// FUNCTION TO GET ALL REIMB REQUESTS FOR THE LOGGED IN USER
 async function getUserRequests(){
     let response = await fetch("http://localhost:8999/api/user");
     let responseBody = await response.json();
     return responseBody.data;
 }
 
-let itemsArray = ["item-id", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
-
-let detailKeyArray = ["id", "amount", "time_submitted", "description", "type", "status"];
-
 function displayRequests(){
     requests.forEach(request => {
         // TARGET: displayContainer
-
         // Single ITEM inside the displayContainer
         let itemContainerElem = document.createElement("div");
         itemContainerElem.className = "item";
-
         // The 6 details to populate the ITEM
         for(i = 0; i < itemsArray.length; i++){
-            //console.log("ITEM DETAIL ITER "+i);
             let itemDetailElem = document.createElement("div");
             itemDetailElem.className = "item-detail";
-            //console.log("ITEM ID: "+itemsArray[i]);
-            itemDetailElem.id = itemsArray[i];
-            //console.log("DETAIL: "+detailKeyArray[i]);
-            
-            // Setting the details for each of the 6;
+            itemDetailElem.id = itemsArray[i];  
+            let key = detailKeyArray[i];
+            let currentData = request[key];   
+            console.log(`CURRENT TGT: ${itemsArray[i]}`)
+            console.log(`CURRENT DATA: ${currentData}`) 
+            // Formatting all "amount" number values to display decimal places
+            if(itemsArray[i] == "item-value"){
+                currentData = currentData.toFixed(2)
+                console.log("INSIDE!!!!!!")
+            }      
             // color coding pending/approved status
-            itemDetailElem.innerText = request[detailKeyArray[i]];
-            if(request[detailKeyArray[i]]=="pending"){
-                itemDetailElem.style.color = "red";
-            }else if(request[detailKeyArray[i]]=="approved"){
+            itemDetailElem.innerText = currentData;
+            if(currentData =="pending"){
+                itemDetailElem.style.color = "orange";
+            }else if(currentData =="approved"){
                 itemDetailElem.style.color = "green";
+                itemDetailElem.style.fontWeight = "bold";
             }
             itemContainerElem.appendChild(itemDetailElem);
         }
         // After adding the details, append the item to the displayContainer
         displayContainer.appendChild(itemContainerElem);
     });
-    // TARGET: controlPanel
-    // making the buttons
-    //  only 2 buttons, so 
+    // TARGET PARENT: controlPanel
+    // Container for the button
     let buttonContainerElem = document.createElement("div");
     buttonContainerElem.className = "button-container";
-
+    // The button to Create New Request
     let ctrlpanelButtonElem = document.createElement("button");
     ctrlpanelButtonElem.className = "control-buttons";
     ctrlpanelButtonElem.innerText = "Create New Request"
     ctrlpanelButtonElem.addEventListener("click", () => {
         window.location = "../request";
     })
-
-
     // APPEND
     buttonContainerElem.appendChild(ctrlpanelButtonElem);
     controlPanel.appendChild(buttonContainerElem);
@@ -88,10 +79,9 @@ function displayRequests(){
 
 // LOGOUT BUTTON FUNCTIONALITY
 let logoutButton = document.getElementById("logout-button");
-console.log(logoutButton);
 logoutButton.type = "button";
 logoutButton.addEventListener("click", async () => {
-    console.log("logout clicked")
+    // Kill session, then redirect to login page
     let response = await fetch("/session", {
         method: "DELETE"
     });

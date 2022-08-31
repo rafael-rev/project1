@@ -5,9 +5,9 @@ let totalItemContainer = document.getElementById("item-container"); //contains i
 let controlPanel = document.getElementById("control-panel"); // contains control buttons
 let detailPanel = document.getElementById("detail-panel"); // contains details for a req
 let overallDisplay = document.getElementById("main-display"); // contains totalItemContainer & detailPanel
-let itemsArray = ["item-id", "item-author", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
-let currentSelectedItem;
-let targetItemID = 1;
+const itemsArray = ["item-id", "item-author", "item-value", "item-submitted", "item-description", "item-type", "item-status"];
+let currentSelectedItem; // stores the currently selected item
+let targetItemID = 1;   // stores the currently selected item's ID
 // 3. set up the window load to check for session. If no session redir to login page
 //      else, save the user and requests to the globals
 window.onload = async () => {
@@ -21,11 +21,6 @@ window.onload = async () => {
         user = responseBody.data;
         requests = await getRequests();
     }
-    console.log(requests);
-    requests.forEach((request, id) => {
-        console.log("REQUEST#"+id+": ");
-        console.log(request);
-    })
     displayPage(requests);
 }
 // FUNCTION TO GET ALL REIMB REQUESTS IN SYSTEM
@@ -62,11 +57,13 @@ function parseRejectedFromRequests(){
     });
     return outputArr;
 }
-function restoreAssessMessage(oldmsg){
-    let text = document.getElementById("detail-panel-title-text");
-    text.innerText = oldmsg;
-    console.log("restored");
-}
+// NOTE: look here
+// function restoreAssessMessage(oldmsg){
+//     let text = document.getElementById("detail-panel-title-text");
+//     text.innerText = oldmsg;
+//     console.log("restored");
+// }
+
 // Custom pause function, must be used inside async functions only
 // A Promise is wrapped around the callback to setTimeout, which is apparently
 //  incompatable with async functions by itself
@@ -75,26 +72,39 @@ function restoreAssessMessage(oldmsg){
 // LEARNED FROM: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
 const waitfor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
+// iterates through the requests retrieved onload and for each request/item:
+// - constructs a div containing 6 divs 
+//      -each inner div contains the text associated with 
+//       the select identifying data column names
+// - adds an eventlistener to each item, so its data can be "selected" and 
+//      - operated on by the accept/reject buttons
+//      - populate the "detail panel" with information pertinent to the request, including
+//          the employee's full name, which isn't included in the items
 function requestLister(requests){
     let detailKeyArray = ["id", "author", "amount", "time_submitted", "description", "type", "status"];
 
     requests.forEach(request => {
         // TARGET: totalItemContainer
-        // Single ITEM inside the displayContainer
+        // Single ITEM inside the totalItemContainer
         let itemElem = document.createElement("div");
         itemElem.className = "item";
-
         // The 6 details to populate the ITEM
         for(i = 0; i < itemsArray.length; i++){
             let itemDetailElem = document.createElement("div");
             itemDetailElem.className = "item-detail";
             itemDetailElem.id = itemsArray[i];
-            // Setting the details for each of the 6;
+            let key = detailKeyArray[i];
+            let currentData = request[key];
+            // Formatting all "amount" number values to display decimal places
+            if(itemsArray[i] == "item-value"){
+                currentData = currentData.toFixed(2)
+            }
             // color coding pending/approved/rejected status
-            itemDetailElem.innerText = request[detailKeyArray[i]];
-            if(request[detailKeyArray[i]]=="pending"){
+            itemDetailElem.innerText = currentData;
+            if(currentData=="pending"){
                 itemDetailElem.style.color = "yellow";
-            }else if(request[detailKeyArray[i]]=="denied"){
+                itemDetailElem.style.fontWeight = "bold";
+            }else if(currentData=="denied"){
                 itemDetailElem.style.color = "red";
             }
             itemElem.appendChild(itemDetailElem);
@@ -134,6 +144,7 @@ function requestLister(requests){
     });
 }
 
+// Quickly get the Full Name of the given Employee ID number
 async function getFullName(id){
     let response = await fetch(`/api/manager/${id}`, {
         method: "GET"
@@ -142,15 +153,15 @@ async function getFullName(id){
     return responseBody;
 }
 
+// APPROVE/REJECT REQUEST FUNCTION
+// applied to both the Approve and Reject buttons
+// accept_code can only be 0 (false) or 1 (true), since the backend will modify 
+// it's response based on only these values
 async function assessRequest(accept_code){
-    //console.log(`IN ASSESSREQ: ${targetItemID}`);
-    //console.log(typeof(parseInt(targetItemID)));
     let request = {
         "id":parseInt(targetItemID),
         "accept":accept_code
     }
-    //console.log(`REQUEST: ${request}`)
-    //console.log(request)
     let response = await fetch(`/api/manager?id=${targetItemID}&accept=${accept_code}`,{
         method: "PATCH",
         body: JSON.stringify(request)
@@ -159,6 +170,8 @@ async function assessRequest(accept_code){
     return responseBody;
 }
 
+// FUNCTION TO BUILD THE PAGE
+// the APPROVE/REJECT buttons are the asynchronous part
 async function displayPage(){
     // Left Details Panel elements
     let detailPanelTitleContainer = document.createElement("div");
@@ -177,9 +190,9 @@ async function displayPage(){
     let detailPanelData = document.createElement("div");
     detailPanelData.id = "detail-data";
     detailPanelTextContainer.appendChild(detailPanelData);
-    let headersListElem = document.createElement("ul");
+    let headersListElem = document.createElement("div");
     headersListElem.className = "listbox";
-    let dataListElem = document.createElement("ul");
+    let dataListElem = document.createElement("div");
     dataListElem.className = "listbox";
     detailPanelTextHeaders.append(headersListElem);
     detailPanelData.append(dataListElem);
@@ -192,6 +205,11 @@ async function displayPage(){
     acceptButton.classList.add("btn", "btn-success");
     acceptButton.innerText = "Approve";
     acceptButton.addEventListener("click", async (event) => {
+        // First makes asynchronous call to the backend with the PATCH update ("approval" in this case)
+        // Depending on the response, button changes the Detail Display title text to inform the manager of 
+        // the outcome of the approval submission.  Custom "pause" function waitfor pauses
+        //  execution for a few seconds, allowing the changed text to linger a bit, then 
+        //  returns to the original text
         let accResponse = await assessRequest(1);
         let text = document.getElementById("detail-panel-title-text");
         let tmp = text.innerText;
@@ -213,6 +231,7 @@ async function displayPage(){
     rejectButton.classList.add("btn", "btn-danger");
     rejectButton.innerText = "Reject";
     rejectButton.addEventListener("click", async (event) => {
+        // just like the accept button, save for the request code and the display
         let rejResponse = await assessRequest(0);
         let text = document.getElementById("detail-panel-title-text");
         let tmp = text.innerText;
@@ -231,7 +250,8 @@ async function displayPage(){
     assessButtonContainer.append(acceptButton, rejectButton);
     detailPanel.appendChild(assessButtonContainer);
     // inner detail panel headers and data divs
-    let headersArr = ["ID", "Employee", "Amount", "Submit Time", "Description", "Type", "Status"];
+    // headersArr used to populate the detail panel category headers
+    var headersArr = ["ID", "Employee", "Amount", "Submit Time", "Description", "Type", "Status"];
     for(i=0;i<headersArr.length;i++){
         let headerItem = document.createElement("li");
         headerItem.className = "table-data";
@@ -243,15 +263,17 @@ async function displayPage(){
         headersListElem.appendChild(headerItem);
         dataListElem.appendChild(dataItem);
     }
-    // This function populates the list of items on the right
+    // This function populates the list of items on the right panel
+    // The header is hard-coded in HTML/CSS
     requestLister(requests);
-    // TARGET: controlPanel
-    // contains the buttons for filtering results
+    // TARGET PARENT: controlPanel
+    // main button container contains the all of the buttons for filtering results
     let buttonContainerElem = document.createElement("div");
     buttonContainerElem.className = "button-container";
-
+    // InnerText and identifiers for the 4 button types
     let buttonTxt = ["Pending", "Approved", "Denied", "All"];
     let btnID = ["btn-pending", "btn-approved", "btn-rejected", "btn-all"];
+    // loop to make all buttons according to their details, and append them to the main container
     for(i=0;i<buttonTxt.length;i++){
         let buttonElem = document.createElement("button");
         buttonElem.className = "control-buttons";
@@ -260,7 +282,8 @@ async function displayPage(){
         buttonContainerElem.appendChild(buttonElem);
     }
     controlPanel.appendChild(buttonContainerElem);
-    // FILTER BUTTON FUNCTIONS
+    // FILTER BUTTON CLICK FUNCTIONALITY
+    // Calls functions for redrawing the items list acc to their type
     let pendingButton = document.getElementById("btn-pending");
     pendingButton.addEventListener("click", () => {
         displayPending();
@@ -281,6 +304,7 @@ async function displayPage(){
     overallDisplay.appendChild(detailPanel);
     overallDisplay.appendChild(totalItemContainer);
 }
+
 // List Manipulation functions for Control Panel buttons
 function clearRequestItems(){
     let items = Array.from(document.getElementsByClassName("item"));
@@ -307,6 +331,7 @@ function displayAll(){
     clearRequestItems();
     requestLister(requests);
 }
+
 // LOGOUT BUTTON FUNCTIONALITY
 let logoutButton = document.getElementById("logout-button");
 console.log(logoutButton);

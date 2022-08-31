@@ -12,7 +12,6 @@ public class Approval {
         this.id = id;
     }
 
-
     public Integer getAccept() {
         return this.accept;
     }
@@ -36,11 +35,6 @@ public class Approval {
             ", id='" + getId() + "'" +
             "}";
     }
-    
-
-
-   
-   
 }
 
 

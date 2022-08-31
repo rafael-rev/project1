@@ -1,7 +1,6 @@
 package com.raf.services;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.raf.dao.ReimburseDaoImpl;
 import com.raf.models.Reimbursement;
 import com.raf.models.Response;
@@ -48,11 +47,5 @@ public class ReimburseSvc {
             response = new Response(false, "Assessment Logging Failed.", null);
         }
         return response;
-    }
-
-
-    // manager filter reimb by status
-    public void seeReimbsByStatus(Integer status_id){
-        // Probably don't need this, func supplied by viewAllREimbRequests
     }
 }

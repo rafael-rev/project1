@@ -8,6 +8,7 @@ import io.javalin.http.Context;
 public class SessionCtrlr {
     UserSvc uSvc = new UserSvc();
 
+    // Static values to share to other classes
     public static User currentUser = null;
     public static Integer currentUserID = 0;
 
@@ -25,7 +26,6 @@ public class SessionCtrlr {
         }else{
             ctx.json(new Response(false, "login failed at validation.", null));
         }
-        
     }
 
     public void logout(Context ctx){
@@ -39,7 +39,6 @@ public class SessionCtrlr {
         //look for value of user
         // setAttribute(key) used to GET info
         User user = ctx.sessionAttribute("user");
-
         if(user == null){
             ctx.json(new Response(false, "no session found", null));
         }else{
@@ -47,5 +46,4 @@ public class SessionCtrlr {
             ctx.json(new Response(true, "session found", user));
         }
     }
-
 }

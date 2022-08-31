@@ -34,8 +34,6 @@ public class ReimburseDaoImpl implements ReimburseDao{
                 type_id = 3;
                 break;
         }
-        //Integer currentUserID = SessionCtrlr.currentUser.getUsers_id();
-
         try(Connection conn = ConnectUtil.getConnection()){
             String qry = "insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_description, reimb_author, reimb_status_id, reimb_type_id) values (?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(qry);
@@ -55,28 +53,6 @@ public class ReimburseDaoImpl implements ReimburseDao{
             logger.error("ReimburseDao - createNewRequestFromReimbObj : SQLException", e);
         }
     }
-    // public void createNewRequestFromReimbObj(Reimbursement reimb_obj){
-    //     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        
-    //     try(Connection conn = ConnectUtil.getConnection()){
-    //         String qry = "insert into ers_reimbursement (reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id) values (?,?,?,?,?,?,?)";
-    //         PreparedStatement ps = conn.prepareStatement(qry);
-    //         //ps.setInt(1,reimb_obj.getId());
-    //         ps.setDouble(1, reimb_obj.getAmount());
-    //         ps.setTimestamp(2,timestamp);
-    //         //ps.setString(4, reimb_obj.getTime_resolved());
-    //         ps.setString(3,reimb_obj.getDescription());
-    //         ps.setString(4, reimb_obj.getReceipt());
-    //         ps.setInt(5, reimb_obj.getAuthor());
-    //         //ps.setInt(8, reimb_obj.getResolver());
-    //         ps.setInt(6, reimb_obj.getStatus_id());
-    //         ps.setInt(7, reimb_obj.getType_id());
-    //         ps.executeUpdate();
-    //         conn.close();
-    //     }catch(SQLException e){
-    //         logger.error("ReimburseDao - createNewRequestFromReimbObj : SQLException", e);
-    //     }
-    // }
 
     /////// RETRIEVE
     public Reimbursement getOneReimbByID(Integer reimb_id){
@@ -339,7 +315,6 @@ public class ReimburseDaoImpl implements ReimburseDao{
             PreparedStatement ps = conn.prepareStatement(qry);
             // NOTE need to set one to Java gen "now" timestamp
             // NOTE need to change 2 to reflect stored manager ID
-            //ps.setString(1, "");
             ps.setInt(1, SessionCtrlr.currentUserID);
             ps.setInt(2, status_id);
             ps.setInt(3, reimb_id);
