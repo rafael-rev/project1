@@ -47,9 +47,83 @@
     margin: 5px;
 }
 
+
+
 #item-id{
     font-weight: bold;
+    font-size: 14px;
+    width: 20px;
 }
+#item-author{
+    font-size: 14px;
+    width:20px;
+}
+#item-value{
+    font-size: 14px;
+    width: 100px;
+}
+#item-submitted{
+    font-size: 14px;
+    width: 180px;
+}
+#item-description{
+    font-size: 14px;
+    width: 220px;
+}
+#item-type{
+    font-size: 14px;
+    width: 50px;
+}
+#item-status{
+    font-size: 14px;
+    width: 75px;
+}
+
+
+
+#item-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#item-id-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 20px;
+}
+#item-author-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 20px;
+}
+#item-value-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 100px;
+}
+#item-submitted-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 180px;
+}
+#item-description-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 220px;
+}
+#item-type-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 50px;
+}
+#item-status-header{
+    font-weight: bold;
+    font-size: 14px;
+    width: 75px;
+}
+
+
 
 #control-panel{
     background-color:rgb(149, 213, 255);
@@ -67,6 +141,8 @@
     justify-content: space-evenly;
     align-content: center;
 }
+
+
 
 #main-display{
     display: flex;   
@@ -124,3 +200,4 @@
     display: flex;
     justify-content: center;
 }
+

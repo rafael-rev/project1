@@ -19,11 +19,15 @@
     margin-top: 5px;
     box-shadow: gray 1px 1px 2px;
 }
+
+
 #display-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
+
 
 .item{
     margin-bottom:3px;
@@ -31,22 +35,76 @@
     height: 30px;
     display:flex;
     flex-direction: row;
-    justify-content: space-between;
-    background-color:rgb(255, 221, 255) ;
+    justify-content:space-between;
+    background-color:rgb(255, 221, 136);
     border-radius: 5px;
 }
 
 .item:hover{
-    background-color: rgb(253, 194, 253);
+    background-color:rgb(255, 241, 206);
 }
 
 .item-detail{
     padding: 2px;
+    margin: 5px;
 }
+
+
 
 #item-id{
     font-weight: bold;
+    width: 20px;
 }
+#item-value{
+    width: 100px;
+}
+#item-submitted{
+    width: 180px;
+}
+#item-description{
+    width: 220px;
+}
+#item-type{
+    width: 50px;
+}
+#item-status{
+    width: 75px;
+}
+
+
+
+#item-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#item-id-header{
+    font-weight: bold;
+    width: 20px;
+}
+#item-value-header{
+    font-weight: bold;
+    width: 100px;
+}
+#item-submitted-header{
+    font-weight: bold;
+    width: 180px;
+}
+#item-description-header{
+    font-weight: bold;
+    width: 220px;
+}
+#item-type-header{
+    font-weight: bold;
+    width: 50px;
+}
+#item-status-header{
+    font-weight: bold;
+    width: 75px;
+}
+
+
 
 #control-panel{
     background-color:rgb(221, 184, 88);

@@ -43,7 +43,9 @@ public class ReimburseSvc {
             response = new Response(true, "Approved Request.", null);
         }else if(approved == false){
             rDao.modifyRequestViaReimbID(reimb_id, 3);
-            response = new Response(false, "Request Rejected.", null);
+            response = new Response(true, "Request Rejected.", null);
+        }else{
+            response = new Response(false, "Assessment Logging Failed.", null);
         }
         return response;
     }

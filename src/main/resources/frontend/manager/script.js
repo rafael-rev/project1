@@ -62,6 +62,18 @@ function parseRejectedFromRequests(){
     });
     return outputArr;
 }
+function restoreAssessMessage(oldmsg){
+    let text = document.getElementById("detail-panel-title-text");
+    text.innerText = oldmsg;
+    console.log("restored");
+}
+// Custom pause function, must be used inside async functions only
+// A Promise is wrapped around the callback to setTimeout, which is apparently
+//  incompatable with async functions by itself
+// the callback to setTimeout waits for "delay" amount of time in ms
+// effectively "pauses" execution of code within the async function until the delay is up
+// LEARNED FROM: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
+const waitfor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 function requestLister(requests){
     let detailKeyArray = ["id", "author", "amount", "time_submitted", "description", "type", "status"];
@@ -131,28 +143,19 @@ async function getFullName(id){
 }
 
 async function assessRequest(accept_code){
-    console.log(`IN ASSESSREQ: ${targetItemID}`);
-    console.log(typeof(parseInt(targetItemID)));
-    // let accept_bool;
-    // if(accept_code == 1){
-    //     accept_bool = true;
-    // }else if(accept_code == 0){
-    //     accept_bool = false;
-    // }else{
-    //     console.log("Bad Code Given -- only 0 or 1")
-    // }
+    //console.log(`IN ASSESSREQ: ${targetItemID}`);
+    //console.log(typeof(parseInt(targetItemID)));
     let request = {
         "id":parseInt(targetItemID),
         "accept":accept_code
     }
-    console.log(`REQUEST: ${request}`)
-    console.log(request)
-    
+    //console.log(`REQUEST: ${request}`)
+    //console.log(request)
     let response = await fetch(`/api/manager?id=${targetItemID}&accept=${accept_code}`,{
         method: "PATCH",
         body: JSON.stringify(request)
     });
-    let responseBody = await response.text();
+    let responseBody = await response.json();
     return responseBody;
 }
 
@@ -162,6 +165,7 @@ async function displayPage(){
     detailPanelTitleContainer.id = "detail-panel-title";
     detailPanel.appendChild(detailPanelTitleContainer);
     let detailPanelTitle_Text = document.createElement("h3");
+    detailPanelTitle_Text.id = "detail-panel-title-text";
     detailPanelTitle_Text.innerText = "Current Selection";
     detailPanelTitleContainer.appendChild(detailPanelTitle_Text);
     let detailPanelTextContainer = document.createElement("div");
@@ -186,14 +190,22 @@ async function displayPage(){
     acceptButton.id = "item-approve-btn";
     acceptButton.className = "assess-btn";
     acceptButton.classList.add("btn", "btn-success");
-    acceptButton.innerText = "Success";
+    acceptButton.innerText = "Approve";
     acceptButton.addEventListener("click", async (event) => {
         let accResponse = await assessRequest(1);
-        console.log(currentSelectedItem);
-        console.log(accResponse);
-        // if(response.success == true){
-        //     window.setTimeout(detailPanelTitle_Text.innerText='Approval Logged', 3000);
-        // }
+        let text = document.getElementById("detail-panel-title-text");
+        let tmp = text.innerText;
+        if(accResponse.message == "Approved Request."){
+            text.innerText ='Approval Logged';
+            text.style.color = "green";
+            await waitfor(4000);
+            text.innerText = tmp;
+            text.style.color = "black";
+        }else{
+            text.innerText ="Error logging approval"
+            await waitfor(3000);
+            text.innerText = tmp;
+        }
     });
     let rejectButton = document.createElement("button");
     rejectButton.id = "item-reject-btn";
@@ -202,11 +214,19 @@ async function displayPage(){
     rejectButton.innerText = "Reject";
     rejectButton.addEventListener("click", async (event) => {
         let rejResponse = await assessRequest(0);
-        console.log(currentSelectedItem);
-        console.log(rejResponse);
-        // if(response.success == false){
-        //     window.setTimeout(detailPanelTitle_Text.innerText='Rejection Logged', 3000);
-        // }
+        let text = document.getElementById("detail-panel-title-text");
+        let tmp = text.innerText;
+        if(rejResponse.message == "Request Rejected."){
+            text.innerText ='Approval Rejected';
+            text.style.color = "red";
+            await waitfor(4000);
+            text.innerText = tmp;
+            text.style.color = "black";
+        }else{
+            text.innerText ="Error logging rejection"
+            await waitfor(3000);
+            text.innerText = tmp;
+        }
     });
     assessButtonContainer.append(acceptButton, rejectButton);
     detailPanel.appendChild(assessButtonContainer);
