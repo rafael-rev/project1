@@ -28,6 +28,18 @@ public class Reimbursement {
         this.status = status;
         this.type = type;
     }
+    public Reimbursement(Integer id, Double amount, String time_submitted, String time_resolved, String description, String receipt, Integer author, Integer resolver, Integer status_id, Integer type_id) {
+        this.id = id;
+        this.amount = amount;
+        this.time_submitted = time_submitted;
+        this.time_resolved = time_resolved;
+        this.description = description;
+        this.receipt = receipt;
+        this.author = author;
+        this.resolver = resolver;
+        this.status_id = status_id;
+        this.type_id = type_id;
+    }
 
     public Reimbursement(Double amount, String time_submitted, String description, Integer author, Integer type_id, Integer status_id, String type) {
         this.amount = amount;
