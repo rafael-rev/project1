@@ -13,7 +13,6 @@
 - I can approve or deny pending reimbursement requests - DONE
 - I can filter reimbursements by status - DONE
 
-
 **OPTIONAL:**
 - Passwords should be hashed in Java and securely stored in the database
 - Users can upload a document or img of reciept when submitting reimbursements
