@@ -1,0 +1,5 @@
+com.raf.controllers.UserCtrlr#viewPastRequests(Lio/javalin/http/Context;)V
+com.raf.models.Response#instance-init#
+io.javalin.http.Context#sessionAttribute(Ljava/lang/String;)Ljava/lang/Object;
+io.javalin.http.Context#json(Ljava/lang/Object;)Lio/javalin/http/Context;
+com.raf.models.Response#<init>(Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Object;)V

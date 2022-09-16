@@ -1,0 +1,3 @@
+com.raf.services.ReimburseSvc#answerRequest(Ljava/lang/Integer;Ljava/lang/Boolean;)Lcom/raf/models/Response;
+com.raf.models.Response#instance-init#
+com.raf.models.Response#<init>(Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Object;)V

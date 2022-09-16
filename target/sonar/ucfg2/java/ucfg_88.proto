@@ -1,0 +1,96 @@
+
+4com.raf.models.Response#toString()Ljava/lang/String;l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java. .("1*°
+1l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ /(ª
+§
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 0(
+%0java.lang.String"__concat*
+{*
+
+ success='ìé
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java0 0(&
+%1java.lang.Boolean"6com.raf.models.Response#isSuccess()Ljava/lang/Boolean;*
+com.raf.models.Response2isSuccess()È
+Å
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 0(&
+%2java.lang.String"__concat*
+
+%0java.lang.String*
+
+%1java.lang.Boolean´
+±
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 0(,
+%3java.lang.String"__concat*
+
+%2java.lang.String*
+'¾
+»
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 1(
+%4java.lang.String"__concat*
+
+%3java.lang.String*
+, message='ìé
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java1 1((
+%5java.lang.String"6com.raf.models.Response#getMessage()Ljava/lang/String;*
+com.raf.models.Response2getMessage()Ç
+Ä
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 1((
+%6java.lang.String"__concat*
+
+%4java.lang.String*
+
+%5java.lang.String´
+±
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 1(.
+%7java.lang.String"__concat*
+
+%6java.lang.String*
+'»
+¸
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 2(
+%8java.lang.String"__concat*
+
+%7java.lang.String*
+
+, data='æã
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java2 2("
+%9java.lang.Object"3com.raf.models.Response#getData()Ljava/lang/Object;*
+com.raf.models.Response2	getData()È
+Å
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 2("
+%10java.lang.String"__concat*
+
+%8java.lang.String*
+
+%9java.lang.Object¶
+³
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 2((
+%11java.lang.String"__concat*
+
+%10java.lang.String*
+'¶
+³
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 3(
+%12java.lang.String"__concat*
+
+%11java.lang.String*
+}"‰
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Response.java/ 3(
+
+%12java.lang.StringB
+com.raf.models.Response

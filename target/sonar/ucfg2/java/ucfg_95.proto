@@ -1,0 +1,69 @@
+
+4com.raf.models.Approval#toString()Ljava/lang/String;l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java   ("1*õ
+1l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! !(©
+¦
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! "(
+%0java.lang.String"__concat*
+{*
+	 accept='ìé
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java" "(%
+%1java.lang.Integer"6com.raf.models.Approval#getAccept()Ljava/lang/Integer;*
+com.raf.models.Approval2getAccept()È
+Å
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! "(%
+%2java.lang.String"__concat*
+
+%0java.lang.String*
+
+%1java.lang.Integer´
+±
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! "(+
+%3java.lang.String"__concat*
+
+%2java.lang.String*
+'¹
+¶
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! #(
+%4java.lang.String"__concat*
+
+%3java.lang.String*
+
+, id='äá
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java# #(
+%5java.lang.Integer"2com.raf.models.Approval#getId()Ljava/lang/Integer;*
+com.raf.models.Approval2getId()È
+Å
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! #(
+%6java.lang.String"__concat*
+
+%4java.lang.String*
+
+%5java.lang.Integer´
+±
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! #($
+%7java.lang.String"__concat*
+
+%6java.lang.String*
+'´
+±
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! $(
+%8java.lang.String"__concat*
+
+%7java.lang.String*
+}"ˆ
+l
+bC:/Users/Administrator/Documents/JAVA/project1/project1/src/main/java/com/raf/models/Approval.java! $(
+
+%8java.lang.StringB
+com.raf.models.Approval

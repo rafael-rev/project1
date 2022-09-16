@@ -1,0 +1,7 @@
+organization=rafcodesmelltesting
+projectKey=raf-project1
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.32057
+dashboardUrl=https://sonarcloud.io/dashboard?id=raf-project1
+ceTaskId=AYNHDu3Xg3b9NxwgYtaG
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYNHDu3Xg3b9NxwgYtaG

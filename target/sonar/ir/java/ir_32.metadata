@@ -1,0 +1,8 @@
+com.raf.App#main([Ljava/lang/String;)V
+com.raf.controllers.SessionCtrlr#instance-init#
+com.raf.controllers.MgrCtrlr#instance-init#
+com.raf.controllers.UserCtrlr#<init>()V
+com.raf.controllers.UserCtrlr#instance-init#
+com.raf.controllers.SessionCtrlr#<init>()V
+com.raf.controllers.MgrCtrlr#<init>()V
+io.javalin.Javalin#create(Ljava/util/function/Consumer;)Lio/javalin/Javalin;
